@@ -63,5 +63,6 @@ This file should contain a family id and individual id that will be searched for
 1234567	1234567
 2323433	2323433
 ...
-Note, INFO-scores are calculated based on individuals included in this file.
 ```
+Note, INFO-scores are calculated based on individuals included in this file.
+
