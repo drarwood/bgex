@@ -28,7 +28,7 @@ void OutputProbs(map<int,SAMPLE>& s, map<string,VARIANT>& v, vector<string>& o, 
     outFile.open(f+".probs", ios_base::out);
     if (outFile.is_open()) {
         // generate the header
-        outFile << "n_eid";
+        outFile << "fid:iid";
         for (size_t i = 0; i < o.size(); ++i) {
             if (v[o[i]].use) {
                 outFile << "\t" << v[o[i]].chr+":"+v[o[i]].pos+":"+v[o[i]].bgen_a1+":"+v[o[i]].bgen_a2;
@@ -77,7 +77,7 @@ void OutputDosages(map<int,SAMPLE>& s, map<string,VARIANT>& v, vector<string>& o
     outFile.open(f+".dosages", ios_base::out);
     if (outFile.is_open()) {
         // generate the header
-        outFile << "n_eid";
+        outFile << "fid:iid";
         for (size_t i = 0; i < o.size(); ++i) {
             if (v[o[i]].use) {
                 outFile << "\t" << v[o[i]].chr+":"+v[o[i]].pos+":"+v[o[i]].bgen_a1+":"+v[o[i]].bgen_a2;
@@ -125,7 +125,7 @@ void OutputPS(map<int,SAMPLE>& s, string& f) {
     outFile.open(f+".pscores", ios_base::out);
     if (outFile.is_open()) {
         // generate the header
-        outFile << "n_eid\tpscore\n";
+        outFile << "fid:iid\tpscore\n";
         // now cycle through the samples and [robs
         for (map<int,SAMPLE>::iterator it=s.begin(); it!=s.end(); ++it) {
             // check this is an individual wanted within data extraction
