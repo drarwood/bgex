@@ -99,5 +99,6 @@ The format of the `.infoscore` file is:
 variant       info_score
 1:10235:T:TA  0.8990
 ...
+```
 Note the variant ID is based on the original user chr, bp position, a1, and a2 in the variant file input by the user.
-``
+
