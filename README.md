@@ -27,6 +27,7 @@ The above functions work on a list of individuals and a list of variants.
 cd sqlite/
 gcc -Wall -pthread sqlite3.c -c
 # compile main program
+cd ../
 g++ -O2 -Wall -pthread *.cpp -c  
 g++ -O2 -pthread -o bgex *.o sqlite/sqlite3.o -ldl -I./zlib-1.2.13 -lz
 ```
@@ -63,19 +64,30 @@ This file should contain a family id and individual id that will be searched for
 ```
 Note, info-scores are calculated based on individuals included in this file.
 
+
 ## Output Files
 ### .dosages
-The format of the dosages file is:
+The format of the `.dosages` file is:
 ```
-fid:iid    var1                var2               var3               ...  varN
-111:111    p(a1a2)+2p(aa2a2)   p(a1a2)+2p(aa2a2)  p(a1a2)+2p(aa2a2)  ...  p(a1a2)+2p(aa2a2)
+fid:iid           var1                var2               var3               ...  varN
+1234567:1234567   p(a1a2)+2p(aa2a2)   p(a1a2)+2p(aa2a2)  p(a1a2)+2p(aa2a2)  ...  p(a1a2)+2p(aa2a2)
+...
 ```
 The variant IDs are of the form `chr:pos:allele_1:allele_2` where `allele_1` and `allele_2` are defined by the bgen format - not the user. The dosage increase allele is `allele_2`.
 
 ### .probs
-The .probs files contains genotype probability pairs for `allele_1/allele_1` and `allele_1/allele_2`. The probability of being homozygous for `allele_2` can be derived by substracting the sum of the two probabilities fromr 1. The format of the probs file is:
+The `.probs` file contains genotype probability pairs for `allele_1/allele_1` and `allele_1/allele_2`. The probability of being homozygous for `allele_2` can be derived by substracting the sum of the two probabilities fromr 1. The format of the `.probs' file is:
 ```
-fid:iid    var1              var2	       var3	         ...   varN
-111:111    p(a1a1),p(a1a2)   p(a1a1),p(a1a2)   p(a1a1),p(a1a2)   ...   p(a1a1),p(a1a2)
+fid:iid           var1              var2	      var3              ...   varN
+1234567:1234567   p(a1a1),p(a1a2)   p(a1a1),p(a1a2)   p(a1a1),p(a1a2)   ...   p(a1a1),p(a1a2)
+...
 ```
 
+### .pscores
+The `.pscores` file contains the derived polygenic scores based on alleles and weights provided in the variant file (see above). Polygenic scores are calculated by summing the number of trait raising alleles multiplied by the respecitive abs(weight). 
+The format of the `.pscores' file is:
+```
+fid:iid          pscore
+1234567:1234567  0.8939
+...
+```
