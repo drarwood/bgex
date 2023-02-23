@@ -76,7 +76,7 @@ fid:iid           var1                var2               var3               ... 
 The variant IDs are of the form `chr:pos:allele_1:allele_2` where `allele_1` and `allele_2` are defined by the bgen format - not the user. The dosage increasing allele is `allele_2`.
 
 ### .probs
-The `.probs` file contains genotype probability pairs for `allele_1/allele_1` and `allele_1/allele_2`. The probability of being homozygous for `allele_2` can be derived by substracting the sum of the two probabilities fromr 1. The format of the `.probs' file is:
+The `.probs` file contains genotype probability pairs for `allele_1/allele_1` and `allele_1/allele_2`. The probability of being homozygous for `allele_2` can be derived by substracting the sum of the two probabilities from 1. The format of the `.probs' file is:
 ```
 fid:iid           var1              var2	      var3              ...   varN
 1234567:1234567   p(a1a1),p(a1a2)   p(a1a1),p(a1a2)   p(a1a1),p(a1a2)   ...   p(a1a1),p(a1a2)
@@ -91,3 +91,13 @@ fid:iid          pscore
 1234567:1234567  0.8939
 ...
 ```
+
+### .infoscores
+The `.infoscores` file contains the calculated INFO-score metric commonly used as a measure of genotype imputation quality. The INFO-scores for a given variant are calcuated based on either all individuals represented in the bgen or based on those listed in the subject inclusion file (see above).
+The format of the `.infoscore` file is:
+```
+variant       info_score
+1:10235:T:TA  0.8990
+...
+Note the variant ID is based on the original user chr, bp position, a1, and a2 in the variant file input by the user.
+``
