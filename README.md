@@ -20,3 +20,13 @@ The above functions work on a list of individuals and a list of variants.
     --info      -q  [flag to extract info score]
     --out       -o  [file prefix for outputs]
 ```
+
+## Compiling manually (make file due)
+```
+# compile sqlite
+cd sqlite/
+gcc -Wall -pthread sqlite3.c -c
+# compile main program
+g++ -O2 -Wall -pthread *.cpp -c  
+g++ -O2 -pthread -o bgex *.o sqlite/sqlite3.o -ldl -I./zlib-1.2.13 -lz
+```
