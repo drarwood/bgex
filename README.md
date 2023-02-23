@@ -67,9 +67,10 @@ Note, info-scores are calculated based on individuals included in this file.
 ### .dosages
 The format of the dosages file is:
 ```
-fid:iid    var1    var2    var3    ...    varN
+fid:iid    var1                var2               var3               ...  varN
+111:111    p(a1a2)+2p(aa2a2)   p(a1a2)+2p(aa2a2)  p(a1a2)+2p(aa2a2)  ...  p(a1a2)+2p(aa2a2)
 ```
-Note the variant IDs are of the form `chr:pos:allele_1:allele_2` where `allele_1` and `allele_2` are defined by the bgen format - not the user. The dosage increase allele is `allele_2`.
+The variant IDs are of the form `chr:pos:allele_1:allele_2` where `allele_1` and `allele_2` are defined by the bgen format - not the user. The dosage increase allele is `allele_2`.
 
 ### .probs
 The .probs files contains genotype probability pairs for `allele_1/allele_1` and `allele_1/allele_2`. The probability of being homozygous for `allele_2` can be derived by substracting the sum of the two probabilities fromr 1. The format of the probs file is:
