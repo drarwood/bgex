@@ -1,5 +1,5 @@
 # bgex - BEGEN Extraction Tool
-This tool has been designed to extract data from bgen files from the UK Biobank and performs the following functions:
+This tool has been designed to extract data from binary bgen files from the UK Biobank and performs the following functions:
  * extract genotype dosages
  * extract genotype probabilties
  * calculate polygenic risk scores
@@ -41,5 +41,27 @@ This should be a file containing chromosome and absolute file path to respective
 ...
 ```
 
----
+### Variant file
+This file should contain at least the chromosome, bp-position, allele1, allele2. A 5th column may be provided that specifies the beta or log(OR) aligned to allele1. The 5th column will only be used if `--pscore` specified:
+```
+1	10235	T	TA	0.2
+16	53818708	T	G	-0.22
+16	53798523	A	G	0.83
+16	53831146	T	C	-0.1
+18	57838401	A	G	-0.123
+2	25150296	G	A	0.828
+2	632348	A	G	0.009
+1	177889480	A	G	-0.013
+11	27679916	T	C	0.88
+```
+Note that polygenic scores will be derived based on weighting phenotype raising alleles to the absolute values of the 5th column.
 
+
+### Optional subjects inclusion file
+This file should contain a family id and individual id that will be searched for in the bgen sample file
+```
+1234567	1234567
+2323433	2323433
+...
+Note, INFO-scores are calculated based on individuals included in this file.
+```
