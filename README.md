@@ -73,7 +73,7 @@ fid:iid           var1                var2               var3               ... 
 1234567:1234567   p(a1a2)+2p(aa2a2)   p(a1a2)+2p(aa2a2)  p(a1a2)+2p(aa2a2)  ...  p(a1a2)+2p(aa2a2)
 ...
 ```
-The variant IDs are of the form `chr:pos:allele_1:allele_2` where `allele_1` and `allele_2` are defined by the bgen format - not the user. The dosage increase allele is `allele_2`.
+The variant IDs are of the form `chr:pos:allele_1:allele_2` where `allele_1` and `allele_2` are defined by the bgen format - not the user. The dosage increasing allele is `allele_2`.
 
 ### .probs
 The `.probs` file contains genotype probability pairs for `allele_1/allele_1` and `allele_1/allele_2`. The probability of being homozygous for `allele_2` can be derived by substracting the sum of the two probabilities fromr 1. The format of the `.probs' file is:
@@ -85,7 +85,7 @@ fid:iid           var1              var2	      var3              ...   varN
 
 ### .pscores
 The `.pscores` file contains the derived polygenic scores based on alleles and weights provided in the variant file (see above). Polygenic scores are calculated by summing the number of trait raising alleles multiplied by the respecitive abs(weight). 
-The format of the `.pscores' file is:
+The format of the `.pscores` file is:
 ```
 fid:iid          pscore
 1234567:1234567  0.8939
