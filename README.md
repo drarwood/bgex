@@ -30,3 +30,15 @@ gcc -Wall -pthread sqlite3.c -c
 g++ -O2 -Wall -pthread *.cpp -c  
 g++ -O2 -pthread -o bgex *.o sqlite/sqlite3.o -ldl -I./zlib-1.2.13 -lz
 ```
+
+## Input Files
+### BGEN file list
+This should be a file containing chromosome and absolute file path to respective bgen: 
+```
+1	/slade/projects/Research_Project-MRC158833/UKBiobank/500K_Genetic_data/imputed_data/ukb_imp_chr1_v3.bgen
+2	/slade/projects/Research_Project-MRC158833/UKBiobank/500K_Genetic_data/imputed_data/ukb_imp_chr2_v3.bgen
+3	/slade/projects/Research_Project-MRC158833/UKBiobank/500K_Genetic_data/imputed_data/ukb_imp_chr3_v3.bgen
+```
+
+---
+
