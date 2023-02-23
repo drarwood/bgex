@@ -1,4 +1,5 @@
 # bgex - BGEN Extraction Tool
+### Written by Andrew R Wood (University of Exeter)
 This tool has been designed to extract data from binary bgen files from the UK Biobank and performs the following functions:
  * extract genotype dosages
  * extract genotype probabilties
