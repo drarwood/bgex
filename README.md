@@ -1,4 +1,4 @@
-# bgex - BEGEN Extraction Tool
+# bgex - BGEN Extraction Tool
 This tool has been designed to extract data from binary bgen files from the UK Biobank and performs the following functions:
  * extract genotype dosages
  * extract genotype probabilties
@@ -50,9 +50,6 @@ This file should contain at least the chromosome, bp-position, allele1, allele2.
 16	53831146	T	C	-0.1
 18	57838401	A	G	-0.123
 2	25150296	G	A	0.828
-2	632348	A	G	0.009
-1	177889480	A	G	-0.013
-11	27679916	T	C	0.88
 ```
 Note that polygenic scores will be derived based on weighting phenotype raising alleles to the absolute values of the 5th column.
 
@@ -64,5 +61,12 @@ This file should contain a family id and individual id that will be searched for
 2323433	2323433
 ...
 ```
-Note, INFO-scores are calculated based on individuals included in this file.
+Note, info-scores are calculated based on individuals included in this file.
 
+## Output Files
+###.dosages
+The format of the dosages file is:
+```
+fid:iid    var1    var2    var3    ...    varN
+```
+Note the variant IDs are of the form `chr:pos:allele_1:allele_2` where `allele_1` and `allele_2` are defined by the bgen format - not the user. The dosage increase allele is `allele_2`.
