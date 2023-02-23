@@ -82,6 +82,7 @@ fid:iid           var1              var2	      var3              ...   varN
 1234567:1234567   p(a1a1),p(a1a2)   p(a1a1),p(a1a2)   p(a1a1),p(a1a2)   ...   p(a1a1),p(a1a2)
 ...
 ```
+The variant IDs are of the form `chr:pos:allele_1:allele_2` where `allele_1` and `allele_2` are defined by the bgen format - not the user.
 
 ### .pscores
 The `.pscores` file contains the derived polygenic scores based on alleles and weights provided in the variant file (see above). Polygenic scores are calculated by summing the number of trait raising alleles multiplied by the respective abs(weight). 
