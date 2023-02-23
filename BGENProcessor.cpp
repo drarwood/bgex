@@ -274,41 +274,6 @@ void ExtractGenotypeData(string& f, map<uint64_t,string>& b,
                 vl[it->second].use = true;
             }
 
-
-            /*
-
-            // now need to set info_sore and use field for the relevant struct
-            // determine the struct in the chr_var_structs map (vl)
-            // get bgi variant identifier. We can use this to look up in
-            if (vl.count(bgen_id)) {
-                vl[bgen_id].bgen_a1 = a1_s;
-                vl[bgen_id].bgen_a2 = a2_s;
-                vl[bgen_id].info_score = info;
-                if (info >= mi) {
-                    vl[bgen_id].use = true;
-                }
-            }
-            // else split bgen identifier to swap alleles around to see if key in variant list of structs
-            else {
-                vector<string> temp;
-                split(bgen_id, ":", temp);
-                string alt_id = temp[0]+":"+temp[1]+":"+temp[3]+":"+temp[2];
-                temp.clear();
-                if (vl.count(alt_id)) {
-                    vl[alt_id].bgen_a1 = a1_s;
-                    vl[alt_id].bgen_a2 = a2_s;
-                    vl[alt_id].info_score = info;
-                    if (info >= mi) {
-                        vl[alt_id].use = true;
-                    }
-                }
-                else {
-                    cout << "WARNING 1" << endl;
-                }
-            }
-
-            */
-
         }
     }
 }
