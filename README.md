@@ -21,6 +21,7 @@ The above functions work on a list of individuals and a list of variants.
     --info      -q  [flag to extract info score]
     --out       -o  [file prefix for outputs]
 ```
+At least one of `--dosages` `--probs` `--pscore` `--info` flags must be provided.
 
 ## Compiling manually (make file due)
 ```
