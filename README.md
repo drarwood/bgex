@@ -119,7 +119,7 @@ The following command will produce all output files for all individuals in BGEN.
   --out my_output_file_prefix
 ```
 
-The following command will produce all output files for all individuals in the optional subject list file. Info scores will be based on individuals in that file alone.
+The following command will produce all output files for all individuals in the optional subject list file. Info scores will be based on individuals in that file alone and only data derived from variants with an INFO score >=0.4 will be output or used for polygenic score deriviation.
 ```
 ./bgen_extraction_tool \
   --bgens    my_bgen_file_list.txt \
@@ -130,5 +130,6 @@ The following command will produce all output files for all individuals in the o
   --dosages \
   --pscore \
   --info \
+  --min-info 0.4 \
   --out my_output_file_prefix
 ```
