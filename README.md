@@ -104,3 +104,28 @@ variant       info_score
 ```
 Note the variant ID is based on the original user chr, bp position, a1, and a2 in the variant file input by the user.
 
+## Example command:
+```
+# The following command will produce all output files for all individuals in BGEN. Info scores will be based on all individuals.
+./bgen_extraction_tool \
+  --bgens    my_bgen_file_list.txt \
+  --samples  /path/to/ukb9072_imp_autosomes.sample \
+  --variants my_variant_list.txt \
+  --probs \
+  --dosages \
+  --pscore \
+  --info \
+  --out my_output_file_prefix
+
+# The following command will produce all output files for all individuals in the optional subject list file. Info scores will be based on individuals in that file alone.
+./bgen_extraction_tool \
+  --bgens    my_bgen_file_list.txt \
+  --samples  /path/to/ukb9072_imp_autosomes.sample \
+  --extract  my_subject_list.txt
+  --variants my_variant_list.txt \
+  --probs \
+  --dosages \
+  --pscore \
+  --info \
+  --out my_output_file_prefix
+```
