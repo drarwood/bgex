@@ -124,7 +124,7 @@ The following command will produce all output files for all individuals in the o
 ./bgen_extraction_tool \
   --bgens    my_bgen_file_list.txt \
   --samples  /path/to/ukb9072_imp_autosomes.sample \
-  --extract  my_subject_list.txt
+  --extract  my_subject_list.txt \
   --variants my_variant_list.txt \
   --probs \
   --dosages \
