@@ -98,21 +98,36 @@ void ReadVariantListFile(string& f, map<string,VARIANT>& m, vector<string>& c) {
     ifstream variantFile(f.c_str());
     if (variantFile.is_open()) {
         while (variantFile.good()) {
+            bool pos_num = true;
             getline (variantFile, l);
             if (!l.empty()) {
                 split(l, "\t", d);
-                VARIANT thisVar;
-                thisVar.chr = d[0];
-                thisVar.pos = d[1];
-                thisVar.a1  = d[2];
-                thisVar.a2  = d[3];
-                thisVar.a1_weight = 0.0;
-                if (d.size() == 5 && d[4] != "") {
-                    thisVar.a1_weight = stringToDouble(d[4]);
+                // check pos is a number
+                for (string::iterator it = d[1].begin(); it != d[1].end(); ++it) {
+                    if (!isdigit(*it)) {
+                        pos_num = false;
+                        break;
+                    }
                 }
-                m[d[0]+":"+d[1]+":"+d[2]+":"+d[3]]=thisVar;
-                if (!count(c.begin(), c.end(), d[0])) {
-                    c.push_back(d[0]);
+                // if number carry on
+                if (pos_num) {
+                    VARIANT thisVar;
+                    thisVar.chr = d[0];
+                    thisVar.pos = d[1];
+                    thisVar.a1  = d[2];
+                    thisVar.a2  = d[3];
+                    thisVar.a1_weight = 0.0;
+                    if (d.size() == 5 && d[4] != "") {
+                        thisVar.a1_weight = stringToDouble(d[4]);
+                    }
+                    m[d[0]+":"+d[1]+":"+d[2]+":"+d[3]]=thisVar;
+                    if (!count(c.begin(), c.end(), d[0])) {
+                        c.push_back(d[0]);
+                    }
+                }
+                // if not ignore and print user message
+                else {
+                    cout << l << " ignored as position is not a number" << endl;
                 }
                 d.clear();
             }
