@@ -41,6 +41,7 @@ int main(int argc, char** argv) {
 
     // Read in the list of bgens
     // chromosome id -> bgen file id
+    // chromosome id -> sample file id
     map<string,string> bgen_files;
     ReadBGENListFile(theseArgs.bgenListFileString, bgen_files);
 
