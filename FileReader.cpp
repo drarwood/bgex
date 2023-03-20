@@ -20,7 +20,7 @@ void ReadBGENListFile(string& f, map<string,string>& b) {
     Returns:
       na
     */
-    string l, chr, bgen, sample;
+    string l, chr, bgen;
     ifstream bgenListFile(f.c_str());
     if (bgenListFile.is_open()) {
         while (bgenListFile.good()) {
