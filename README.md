@@ -12,6 +12,7 @@ The above functions work on a list of individuals and a list of variants.
 ```
     --bgens     -b  [bgen and sample file list]
     --variants  -v  [file of variants to extract]
+    --samples   -s  [.sample file - assumes same for all bgens]
     --extract   -e  [file of samples to keep (optional)]
     --min-info  -m  [min INFO for genotype extraction/use]
     --dosages   -d  [flag to extract dosages]
