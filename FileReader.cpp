@@ -11,16 +11,16 @@
 
 using namespace std;
 
-void ReadBGENListFile(string& f, map<string,string>& m) {
+void ReadBGENListFile(string& f, map<string,string>& b) {
     /*
-    Function to read list of bgen files to map: chr -> bgen file
+    Function to read list of bgen and samples files to maps: chr->bgen, chr->sample
     Parameters:
       f : ref to string variable holding chromosome bgen list filename
-      v : ref to map to fill with chromosome and correponding bgen filenames
+      b : ref to map to fill with chromosome and corresponding bgen filenames
     Returns:
       na
     */
-    string l, chr, bgen;
+    string l, chr, bgen, sample;
     ifstream bgenListFile(f.c_str());
     if (bgenListFile.is_open()) {
         while (bgenListFile.good()) {
@@ -30,7 +30,7 @@ void ReadBGENListFile(string& f, map<string,string>& m) {
                 iss.str(l);
                 iss >> chr;
                 iss >> bgen;
-                m[chr] = bgen;
+                b[chr] = bgen;
             }
         }
         bgenListFile.close();
