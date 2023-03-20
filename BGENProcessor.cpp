@@ -167,7 +167,7 @@ void ExtractGenotypeData(string& f, map<uint64_t,string>& b,
             //cout << "bp:         " << bp << endl;
             // number of alleles
             fread(&buff2, 1, sizeof(buff2), bgen);
-            uint16_t allele_n = get_uint16(buff2);
+            //uint16_t allele_n = get_uint16(buff2);
             //cout << "alleles:    " << allele_n << endl;
             // get allele 1
             fread(&buff4, 1, sizeof(buff4), bgen);
@@ -221,7 +221,7 @@ void ExtractGenotypeData(string& f, map<uint64_t,string>& b,
             for (int i = 4; i < 5; ++i) {
                 buff2[i-4] = uncompressed_block[i];
             }
-            uint16_t alleleN = get_uint16(buff2);
+            //uint16_t alleleN = get_uint16(buff2);
             //cout << "Number of alleles " << alleleN << endl;
 
             // Get the number of bits representing each prob
