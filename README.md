@@ -23,15 +23,12 @@ The above functions work on a list of individuals and a list of variants.
 ```
 At least one of `--dosages` `--probs` `--pscore` `--info`  must be provided.
 
-## Compiling manually (make file due)
+## Compiling and install
 ```
-# compile sqlite
-cd sqlite/
-gcc -Wall -pthread sqlite3.c -c
-# compile main program
-cd ../
-g++ -O2 -Wall -pthread *.cpp -c  
-g++ -O2 -pthread -o bgex *.o sqlite/sqlite3.o -ldl -I./zlib-1.2.13 -lz
+# create binary
+make
+# install system-wide (if permissions)
+make install
 ```
 
 ## Input Files
