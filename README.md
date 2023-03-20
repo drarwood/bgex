@@ -10,8 +10,7 @@ The above functions work on a list of individuals and a list of variants.
 
 ## Options
 ```
-    --bgens     -b  [bgen list file]
-    --samples   -s  [bgen sample file]
+    --bgens     -b  [bgen and sample file list]
     --variants  -v  [file of variants to extract]
     --extract   -e  [file of samples to keep (optional)]
     --min-info  -m  [min INFO for genotype extraction/use]
@@ -38,9 +37,9 @@ g++ -O2 -pthread -o bgex *.o sqlite/sqlite3.o -ldl -I./zlib-1.2.13 -lz
 ### BGEN file list
 This should be a file containing chromosome and absolute file path to respective bgen: 
 ```
-1	/full/path/to/ukb_imp_chr1_v3.bgen
-2	/full/path/to/ukb_imp_chr2_v3.bgen
-3	/full/path/to/ukb_imp_chr3_v3.bgen
+1	/full/path/to/ukb_imp_chr1_v3.bgen	/full/path/to/ukb_imp_chr1_v3.sample
+2	/full/path/to/ukb_imp_chr2_v3.bgen	/full/path/to/ukb_imp_chr2_v3.sample
+3	/full/path/to/ukb_imp_chr3_v3.bgen	/full/path/to/ukb_imp_chr3_v3.sample
 ...
 ```
 
