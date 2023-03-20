@@ -2,6 +2,7 @@
 all: bgex
 
 bgex: *.cpp
+	gcc -Wall -pthread sqlite/sqlite3.c -c -o sqlite/sqlite3.o
 	g++ -O2 -Wall -pthread *.cpp -c
 	g++ -O2 -pthread -o bgex *.o sqlite/sqlite3.o -ldl -I./zlib-1.2.13 -lz
 
