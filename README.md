@@ -40,9 +40,8 @@ This should be a file containing chromosome and absolute file path to respective
 2	/full/path/to/ukb_imp_chr2_v3.bgen
 3	/full/path/to/ukb_imp_chr3_v3.bgen
 ...
-Note the respective `.bgi` is required and expected to be in the same directory as the `.bgen` file
-
 ```
+Note the respective `.bgi` is required and expected to be in the same directory as the `.bgen` file
 
 ### Variant file
 This file should contain at least the chromosome, bp-position, allele1, allele2. A 5th column may be provided that specifies the beta or log(OR) aligned to allele1. The 5th column will only be used if `--pscore` specified:
