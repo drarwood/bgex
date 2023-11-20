@@ -8,7 +8,7 @@ This C++ tool has been designed to extract data from binary bgen files from the 
 
 The above functions work on a list of individuals and a list of variants.
 Note this version expects layout 2 with compression blocks derived through either zlib or zstd libraries.
-The present version has been tested on UK Biobank bgens storing imputed data derived from HRC+UK10 and TOPMed imputation panels. 
+The present version has been tested on UK Biobank bgen files storing imputed data derived from HRC+UK10 and TOPMed imputation panels on a cloud workstation on the DNAnexus platform. 
 ## Options
 ```
     --bgens     -b  [bgen and sample file list]
