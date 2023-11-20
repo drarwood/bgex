@@ -15,6 +15,11 @@
 #include "zlib.h"
 #include <vector>
 #include <algorithm>
+#include <stdio.h>
+#include <stdlib.h>
+#include <iomanip>
+#include "zstd/lib/zstd.h"
+#include "zstd/examples/common.h"
 
 #include "FileReader.h"
 #include "BGENProcessor.h"
@@ -34,6 +39,7 @@ uint16_t get_uint16(char* b) {
                      (unsigned char)(b[0]));
     return x;
 }
+
 
 string chars2string(char* a, int size) {
     string s = "";
@@ -57,6 +63,7 @@ void ReadBGENHeader(string& f, struct BGEN& b) {
 
         fread(&buff4, 1, sizeof(buff4), bgen);
         b.first_var_byte_add = get_uint32(buff4)+4;
+        //cout << "First byte address: " << b.first_var_byte_add << endl;
 
         // Move to the header block
         fseek(bgen, 4, SEEK_SET);
@@ -64,18 +71,22 @@ void ReadBGENHeader(string& f, struct BGEN& b) {
         // Get total size of header block
         fread(&buff4, 1, sizeof(buff4), bgen);
         b.header_length = get_uint32(buff4);
+        //cout << "Size of header block (bytes): " << b.header_length << endl;
 
         // Get number of variant blocks in bgen
         fread(&buff4, 1, sizeof(buff4), bgen);
         b.var_count = get_uint32(buff4);
+        //cout << "Number of variant blocks stored in file: " << b.var_count << endl;
 
         // Get sample count
         fread(&buff4, 1, sizeof(buff4), bgen);
         b.sample_count = get_uint32(buff4);
+        //cout << "Sample count in header: " << b.sample_count << endl;
 
         // Get magic number ('b','g','e','n')
         fread(&buff4, 1, sizeof(buff4), bgen);
         b.magic_number = chars2string(buff4, sizeof(buff4));
+        //cout << "Magic number: " << b.magic_number << endl;
 
         // skip over free data block area if required: go to 32+freesizeblock
         b.free_area_size = b.header_length - 20;
@@ -86,15 +97,19 @@ void ReadBGENHeader(string& f, struct BGEN& b) {
 	// read final 4 bytes of the header which will contain various flags
         fread(&buff4, 1, sizeof(buff4), bgen);
         // bits 0-1 flag for decompressed (0) or compressed (1) genotype probabilities
-        b.compressed_probs = buff4[0] & 0x0011;
+        b.compressed_probs = buff4[0] & 0x0003;
+        //cout << "Compressed probability flag: " << b.compressed_probs << endl;
 
         // bits 2-5 provide layout code:
         // (0) allows only single-character alleles,
         // (1) allows multiple characters in alleles,
         // (2) allows multiple alleles, phased and unphased genotypes, explicit specification of ploidy and missing data, and configurable l$
         b.layout =  (buff4[0] >> 2) & 0x000F;
+        //cout << "Layout flag: " << b.layout << endl;
+
         // bit 31 flags whether sample identifiers are present in the bgen file (0) = no, (1) = yes and sample block follows
         b.samples_in_bgen = (buff4[3] >> 7) & 0x0001;
+        //cout << "Samples in bgen flag: " << b.samples_in_bgen << endl;
 
     }
 
@@ -103,9 +118,13 @@ void ReadBGENHeader(string& f, struct BGEN& b) {
 }
 
 
-void ExtractGenotypeData(string& f, map<uint64_t,string>& b,
+void ExtractGenotypeData(string& f,
+                         map<uint64_t,string>& b,
                          map<int, SAMPLE>& s,
-                         map<string,VARIANT>& vl, double& mi, vector<string>& vo) {
+                         map<string,VARIANT>& vl,
+                         double& mi,
+                         vector<string>& vo,
+                         unsigned int cFlag) {
 
     /* This method reads the bgen files and extracts the dosages / probabilities.
        Dosages and probabilities are stored within the SAMPLE structs
@@ -116,6 +135,7 @@ void ExtractGenotypeData(string& f, map<uint64_t,string>& b,
          vl:    ref to map of user defined chr:pos:a1:A2 -> VARIANT STRUCT for this chromosome
          mi:    ref to double for min info threshold for variant to be output / included
          vo:    ref to vector to push_back on to hold user variant ids for genotypes extracted ordered as read
+         cFlag: integer: 1=zlib compressed, 2=zstd compressed.
     */
 
     // Open the bgen file:
@@ -132,6 +152,8 @@ void ExtractGenotypeData(string& f, map<uint64_t,string>& b,
 
             // push back next user defined variant id onto vector for later use
             vo.push_back(it->second);
+            //cout << "Next variant in bgen processed" << endl;
+            //cout << it->second << endl;
 
             // go to starting byte
             fseek(bgen, it->first, SEEK_SET);
@@ -167,7 +189,7 @@ void ExtractGenotypeData(string& f, map<uint64_t,string>& b,
             //cout << "bp:         " << bp << endl;
             // number of alleles
             fread(&buff2, 1, sizeof(buff2), bgen);
-            //uint16_t allele_n = get_uint16(buff2);
+            uint16_t allele_n = get_uint16(buff2);
             //cout << "alleles:    " << allele_n << endl;
             // get allele 1
             fread(&buff4, 1, sizeof(buff4), bgen);
@@ -183,8 +205,6 @@ void ExtractGenotypeData(string& f, map<uint64_t,string>& b,
             fread(&a2, 1, sizeof(a2), bgen);
             string a2_s = chars2string(a2, sizeof(a2));
             //cout << "A2:         " << a2_s << endl;
-            //cout << endl;
-
 
             // define bgen varid based on chr:pos:a1a2 here
             string bgen_id = chr_s + ":" + to_string(bp) + ":" + a1_s + ":" + a2_s;
@@ -202,14 +222,38 @@ void ExtractGenotypeData(string& f, map<uint64_t,string>& b,
             unsigned long int compressed_block_length = remaining_block_length-4;
             //cout << "compressed_block_length:   " << compressed_block_length << endl;
 
+            // get current read poisiton
+            auto read_pos = ftell(bgen);
+            //cout << "Current read position: " << read_pos << endl;
 
             // Get compressed block
             unsigned char comp_block[compressed_block_length];
             fread(&comp_block, 1, sizeof(comp_block), bgen);
-            // decompress
+
             unsigned char uncompressed_block[uncompressed_block_length];
-            uncompress(uncompressed_block, &uncompressed_block_length,  comp_block, sizeof(comp_block));
-            //cout << sizeof(uncompressed_block) << endl;
+            // decompress prob block based on compression algorithm
+            //unsigned char uncompressed_block[uncompressed_block_length];
+            if (cFlag == 1) {
+                // ZLIB compression:
+                // generate buffer to hold decompressed block
+                //unsigned char uncompressed_block[uncompressed_block_length];
+                // decompress using zlib
+                uncompress(uncompressed_block, &uncompressed_block_length,  comp_block, sizeof(comp_block));
+            }
+            else if (cFlag == 2) {
+                // ZSTD compression:
+                ZSTD_DStream* const dstream = ZSTD_createDStream();
+                ZSTD_initDStream(dstream);
+                size_t const buffOutSize = uncompressed_block_length;
+                void*  const buffOut     = malloc_orDie(buffOutSize);
+                ZSTD_inBuffer input = { comp_block,  compressed_block_length, 0 };
+                ZSTD_outBuffer output = { buffOut, uncompressed_block_length, 0 };
+                std::size_t toRead = ZSTD_decompressStream(dstream, &output, &input);
+                //unsigned char* uncompressed_block = (unsigned char*)buffOut;
+                unsigned char* t = (unsigned char*)buffOut;
+                memcpy(uncompressed_block, t, uncompressed_block_length);
+            }
+
 
             // get first 4 bytes from buffer to confirm N
             for (int i = 0; i < 4; ++i) {
@@ -217,12 +261,24 @@ void ExtractGenotypeData(string& f, map<uint64_t,string>& b,
             }
             uint32_t varN = get_uint32(buff4);
             //cout << "Number of individuals " << varN << endl;
+
             // get number of alleles for this variant
-            for (int i = 4; i < 5; ++i) {
+            for (int i = 4; i < 6; ++i) {
                 buff2[i-4] = uncompressed_block[i];
             }
-            //uint16_t alleleN = get_uint16(buff2);
+            uint16_t alleleN = get_uint16(buff2);
             //cout << "Number of alleles " << alleleN << endl;
+
+            // get min ploidy
+            unsigned int min_ploidy = uncompressed_block[6];
+            //cout << "Min ploidy " << min_ploidy << endl;
+            // get max ploidy
+            unsigned int max_ploidy = uncompressed_block[7];
+            //cout << "Max ploidy " << max_ploidy << endl;
+
+            // phased flag
+            unsigned int phased_flag = uncompressed_block[varN+8];
+            //cout << "Phased flag: " << phased_flag << endl;
 
             // Get the number of bits representing each prob
             unsigned int bits_per_prob = uncompressed_block[8+varN+1];
@@ -235,8 +291,10 @@ void ExtractGenotypeData(string& f, map<uint64_t,string>& b,
             double info_numerator = 0; // numerator for INFO calculation
             double dosage_sum     = 0; // sum of dosages among individuals for which data extract
             double sample_n       = 0; // number of individuals for which genotypes extract
-            // cycle through individuals (ASSUMING 2-BYTES PER PROB)
-            for (size_t i = 10+varN; i < sizeof(uncompressed_block); i = i+2) {
+
+            // cycle through individuals
+            for (size_t i = 10+varN; i < uncompressed_block_length; i = i+2) {
+
                 // check if need to process this individual based on possible inclusion list
                 if (s[index].use) {
 
@@ -273,7 +331,6 @@ void ExtractGenotypeData(string& f, map<uint64_t,string>& b,
             if (info >= mi) {
                 vl[it->second].use = true;
             }
-
         }
     }
 }

@@ -30,6 +30,7 @@ void ReadBGENHeader(std::string&, struct BGEN&);
 void ExtractGenotypeData(std::string&,
                          std::map<uint64_t, std::string>&,
                          std::map<int,SAMPLE>&, std::map<std::string,VARIANT>&,
-                         double&, std::vector<std::string>&);
+                         double&, std::vector<std::string>&,
+                         unsigned int);
 
 #endif
