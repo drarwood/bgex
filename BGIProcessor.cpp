@@ -102,11 +102,19 @@ void MapToUserVarIDs(map<string,VARIANT>& v, map<uint64_t, string>& b) {
         Parameters:
           v: reference to map holding chr -> vector of VARIANT structs for variants on respecitve chromosome
           b: reference to map holding bgen_id -> byte start
-          m: reference to map to populate with bgen_id -> user_id
+
     */
     // cycle through bgen byte starts to obtain bgen based id based on which is the dosage increasing allele
 
+    // cycle through the map containing byte_start -> bgen variant ID has been defined in the bgi file
     for (map<uint64_t,string>::iterator it = b.begin(); it!=b.end(); ++it) {
+
+        // assume bgi does not pre-append "chr" to id. Alter if needed to remove
+        if (it->second.find("chr") != std::string::npos) {
+            it->second = it->second.substr(3, it->second.length()-3);
+        }
+
+        // if there are no instances of the bgi-defined markername in the map of user defined chr:pos:a1:a2 data 
         if (!v.count(it->second)) {
             vector<string> d;
             split(it->second, ":" ,d);
