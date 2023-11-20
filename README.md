@@ -7,7 +7,8 @@ This C++ tool has been designed to extract data from binary bgen files from the 
  * calculate imputation quality scores (INFO-scores)
 
 The above functions work on a list of individuals and a list of variants.
-
+Note this version expects layout 2 with compression blocks derived through either zlib or zstd libraries.  
+This version has been tested on UK Biobank bgens storing imputed data derived from HRC+UK10 and TOPMed imputation panels. 
 ## Options
 ```
     --bgens     -b  [bgen and sample file list]
