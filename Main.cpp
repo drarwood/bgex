@@ -40,8 +40,6 @@ int main(int argc, char** argv) {
     cout << endl;
 
     // Read in the list of bgens
-    // chromosome id -> bgen file id
-    // chromosome id -> sample file id
     map<string,string> bgen_files;
     ReadBGENListFile(theseArgs.bgenListFileString, bgen_files);
 
@@ -65,8 +63,6 @@ int main(int argc, char** argv) {
     vector<string> chrs;
     ReadVariantListFile(theseArgs.variantFileString, variant_list, chrs);
 
-
-
     // Create vector hold order of variants read across all bgens - will need later when checking to output or not
     vector<string> variants_read_order;
 
@@ -75,6 +71,7 @@ int main(int argc, char** argv) {
 
         // Get starting byte address for variants for this chromosome
         map<uint64_t,string>& chr_var_byte_starts = GetListofVariantStartBytes(bgen_files[*it], variant_list, *it);
+
         // need to get byte aaddress to map to user defined chr:pos:ref:alt so can then link to variant_list map
         MapToUserVarIDs(variant_list, chr_var_byte_starts);
 
@@ -83,33 +80,42 @@ int main(int argc, char** argv) {
         ReadBGENHeader(bgen_files[*it], bgen_info);
 
         // check format as expected before going on:
-        if (bgen_info.sample_count == bgen_samples.size() && bgen_info.layout == 2 && bgen_info.compressed_probs == 1) {
+        if (bgen_info.sample_count == bgen_samples.size() &&
+            bgen_info.layout == 2 &&
+            (bgen_info.compressed_probs == 1 || bgen_info.compressed_probs == 2)) {
+
             // Get the genotype probability bytes
-            ExtractGenotypeData(bgen_files[*it], chr_var_byte_starts, bgen_samples, variant_list, theseArgs.minInfo, variants_read_order);
+            ExtractGenotypeData(bgen_files[*it], chr_var_byte_starts, bgen_samples, variant_list, theseArgs.minInfo, variants_read_order, bgen_info.compressed_probs);
+
         }
         else {
             cout << "Skipping bgen as unexpected format" << endl;
         }
-
     }
+
 
     // cycle through the samples and output probs / dosages / polygenic score flagged as for use
     if (theseArgs.extractProbs) {
+        cout << "Outputting genotype probabilities" << endl;
         OutputProbs(bgen_samples, variant_list, variants_read_order, theseArgs.outFileString);
     }
 
     if (theseArgs.extractDosages) {
+        cout << "Outputting genotype dosages" << endl;
         OutputDosages(bgen_samples, variant_list, variants_read_order, theseArgs.outFileString);
     }
 
     if (theseArgs.extractPScore) {
+        cout << "Calculating polygenic score based on variants in this bgen" << endl;
         CalculatePS(bgen_samples, variant_list, variants_read_order);
         OutputPS(bgen_samples, theseArgs.outFileString);
     }
 
     if (theseArgs.extractInfoScore) {
+        cout << "Outputting info scores for variants" << endl;
         OutputInfoScores(variant_list, theseArgs.outFileString);
     }
 
     return 0;
 }
+
