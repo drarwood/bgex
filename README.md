@@ -13,7 +13,7 @@ The present version has been tested on UK Biobank bgen files storing imputed dat
 ```
     --bgens     -b  [bgen and sample file list]
     --variants  -v  [file of variants to extract]
-    --samples   -s  [.sample file - assumes same for all bgens]
+    --samples   -s  [.sample file]
     --extract   -e  [file of samples to keep (optional)]
     --min-info  -m  [min INFO for genotype extraction/use]
     --dosages   -d  [flag to extract dosages]
