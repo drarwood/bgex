@@ -10,6 +10,7 @@
 #define __BGENPROCESSOR__
 
 #include <string>
+#include <stdint.h>
 
 struct BGEN
 {
