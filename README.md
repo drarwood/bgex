@@ -61,9 +61,9 @@ The example input files listing bgens within the `example_input/` directory refl
 ### BGEN file list
 This should be a file containing chromosome and absolute file path to respective bgen: 
 ```
-1	/full/path/to/ukb_imp_chr1_v3.bgen
-2	/full/path/to/ukb_imp_chr2_v3.bgen
-3	/full/path/to/ukb_imp_chr3_v3.bgen
+1	/home/dnanexus/project/UKB_500k_WGS/Bulk/Imputation/UKB imputation from genotype/ukb22828_c1_b0_v3.bgen
+2	/home/dnanexus/project/UKB_500k_WGS/Bulk/Imputation/UKB imputation from genotype/ukb22828_c2_b0_v3.bgen
+3	/home/dnanexus/project/UKB_500k_WGS/Bulk/Imputation/UKB imputation from genotype/ukb22828_c3_b0_v3.bgen
 ...
 ```
 If the file path contains spaces, do not try to escape them or enclose the filename in quotes (see example files provided)
@@ -72,12 +72,12 @@ Note the respective `.bgi` is required and expected to be in the same directory 
 ### Variant file
 This file should contain at least the chromosome, bp-position, allele1, allele2. A 5th column may be provided that specifies the beta or log(OR) aligned to allele1. The 5th column will only be used if `--pscore` specified:
 ```
-1	10235	T	TA	0.2
-16	53818708	T	G	-0.22
-16	53798523	A	G	0.83
-16	53831146	T	C	-0.1
-18	57838401	A	G	-0.123
-2	25150296	G	A	0.828
+1	4414033	C	T	0.006406851
+1	7821917	C	CT	0.006961472
+1	16045250	A	G	0.00648666
+1	17958038	C	T	0.016447903
+1	32180167	T	A	0.00900976
+...
 ```
 Note that polygenic scores will be derived based on weighting phenotype raising alleles to the absolute values of the 5th column.
 
