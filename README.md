@@ -152,6 +152,7 @@ Info scores will be based on individuals extracted. Only variants with an INFO s
   --bgens    example_input/hrc_uk10k_bgens.txt \
   --samples  "/home/dnanexus/project/UKB_500k_WGS/Bulk/Imputation/UKB imputation from genotype/ukb22828_c1_b0_v3.sample"  \
   --variants example_input/var_list_b37.txt \
+  --out      my_output_file_prefix \
   --extract  my_subject_list.txt \
   --probs \
   --dosages \
