@@ -168,4 +168,4 @@ dxfuse project "UKB_500k_WGS"
 "/home/dnanexus/project/UKB_500k_WGS/Bulk/Imputation/Imputation from genotype (TOPmed)/"
 
 ```
-The example input files listing bgens within the `example_input/` directory reflect this mounting.
+The example input files listing bgens within the `example_input/` directory reflect this mounting for the example UKB-RAP project called `UKB_500k_WGS`.
