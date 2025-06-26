@@ -135,8 +135,7 @@ The following command will produce all output files for all individuals in the o
 
 ## Using DXFUSE to avoid downloading the .bgen and .bgi files
 
-A major bottleneck in obtaining genetic data is downloading to a cloud workstation first. To avoid this, one may opt for data streaming through DXFUSE.  
-Here are some commands that enable this
+A major bottleneck in obtaining genetic data is downloading to a cloud workstation first. To avoid this, one may opt for data streaming through DXFUSE. Here are some commands that enable this
 
 ```
 ### Standard initialisation of workspace here:
@@ -152,8 +151,10 @@ sudo chmod 777 /usr/bin/dxfuse
 # create directory to mount project to (e.g. call it "project")
 mkdir project
 
-### At this point, you may want to consider snapshotting because you will have to do the the project mounting setup each time you start a new cloud workstation. You might want to do this before attempting to mount a project due potential issues with permissions later
-dx-create-snapshot --name "/Users/andy/dxfuse_cw_snapshot"
+### At this point, you may want to consider creating a snapshot otherwise  you will have to do 
+### the the project mounting setup each time you start a new cloud workstation. 
+### You might want to do this before attempting to mount a project due potential issues with permissions later
+dx-create-snapshot --name "dxfuse_snapshot"
 
 ### Mount directory
 dxfuse project "UKB_500k_WGS"
