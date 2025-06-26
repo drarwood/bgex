@@ -26,6 +26,11 @@ int main(int argc, char** argv) {
         exit(EXIT_FAILURE);
     }
     // Feedback input
+    cout << endl;
+    cout << "************************************************************" << endl;
+    cout << "*                 BGEN Extraction Tool (BGEX)              *" << endl;
+    cout << "*            Andrew R Wood (a.r.wood@exeter.ac.uk)         *" << endl;
+    cout << "************************************************************" << endl << endl;
     cout << "Usage: " << endl;
     cout << "  --bgens    -b " << theseArgs.bgenListFileString   << endl;
     cout << "  --samples  -s " << theseArgs.sampleFileString     << endl;

@@ -14,6 +14,10 @@ using namespace std;
 
 void ShowOptions() {
     cout << endl;
+    cout << "************************************************************" << endl;
+    cout << "*                 BGEN Extraction Tool (BGEX)              *" << endl;
+    cout << "*            Andrew R Wood (a.r.wood@exeter.ac.uk)         *" << endl;
+    cout << "************************************************************" << endl << endl;
     cout << "Usage:" << endl;
     cout << "  --bgens     -b  [bgen list file]"                       << endl;
     cout << "  --samples   -s  [bgen sample file]"                     << endl;
