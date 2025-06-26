@@ -144,7 +144,7 @@ Run from within the `bgex/` directory, The following command will produce all ou
   --bgens    example_input/hrc_uk10k_bgens.txt \
   --samples  "/home/dnanexus/project/UKB_500k_WGS/Bulk/Imputation/UKB imputation from genotype/ukb22828_c1_b0_v3.sample"  \
   --variants example_input/var_list_b37.txt \
-  --out      my_output_file_prefix
+  --out      my_output_file_prefix \
   --probs \
   --dosages \
   --pscore \
