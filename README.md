@@ -59,7 +59,7 @@ The example input files listing bgens within the `example_input/` directory refl
 
 ## Input Files
 ### BGEN file list
-This should be a file containing chromosome and absolute file path to respective bgen: 
+This should be a tab-delimited file containing chromosome and absolute file path to respective bgen: 
 ```
 1	/home/dnanexus/project/UKB_500k_WGS/Bulk/Imputation/UKB imputation from genotype/ukb22828_c1_b0_v3.bgen
 2	/home/dnanexus/project/UKB_500k_WGS/Bulk/Imputation/UKB imputation from genotype/ukb22828_c2_b0_v3.bgen
@@ -70,7 +70,7 @@ If the file path contains spaces, do not try to escape them or enclose the filen
 Note the respective `.bgi` is required and expected to be in the same directory as the `.bgen` file.
 
 ### Variant file
-This file should contain at least the chromosome, bp-position, allele1, allele2. A 5th column may be provided that specifies the beta or log(OR) aligned to allele1. The 5th column will only be used if `--pscore` specified:
+This tab-delimited file should contain at least the chromosome, bp-position, allele1, allele2. A 5th column may be provided that specifies the beta or log(OR) aligned to allele1. The 5th column will only be used if `--pscore` specified:
 ```
 1	4414033	C	T	0.006406851
 1	7821917	C	CT	0.006961472
