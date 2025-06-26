@@ -69,6 +69,9 @@ int main(int argc, char** argv) {
     // Cycle variants per chr to extract and obtain dosages and/or probs
     for (vector<string>::iterator it=chrs.begin(); it!=chrs.end(); ++it) {
 
+        // Feedback to user
+        cout << "Processing chromosome " << *it << endl;
+
         // Get starting byte address for variants for this chromosome
         map<uint64_t,string>& chr_var_byte_starts = GetListofVariantStartBytes(bgen_files[*it], variant_list, *it);
 
@@ -106,7 +109,7 @@ int main(int argc, char** argv) {
     }
 
     if (theseArgs.extractPScore) {
-        cout << "Calculating polygenic score based on variants in this bgen" << endl;
+        cout << "Calculating polygenic score based on weightings in variant file" << endl;
         CalculatePS(bgen_samples, variant_list, variants_read_order);
         OutputPS(bgen_samples, theseArgs.outFileString);
     }

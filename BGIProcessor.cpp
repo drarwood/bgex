@@ -46,7 +46,6 @@ static int callback(void *data, int argc, char **argv, char **azColName){
 // vector<uint64_t>& GetListofVariantStartBytes(string& f, map<string,VARIANT>& m) {
 map<uint64_t,string>& GetListofVariantStartBytes(string& f, map<string,VARIANT>& m, string& c) {
 
-
     /* This function returns the start bytes of the data blocks associated with each variant in list
         if it exists...
        Parameters:
@@ -61,7 +60,7 @@ map<uint64_t,string>& GetListofVariantStartBytes(string& f, map<string,VARIANT>&
     sqlite3* DB;
     int error = 0;
     string bgi = f+".bgi";
-    cout << bgi << endl;
+
     error = sqlite3_open(bgi.c_str(), &DB);
     if (error) {
         std::cerr << "Error open DB " << sqlite3_errmsg(DB) << std::endl;

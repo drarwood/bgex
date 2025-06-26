@@ -21,16 +21,15 @@ void ReadBGENListFile(string& f, map<string,string>& b) {
       na
     */
     string l, chr, bgen;
+    vector<string> d;
     ifstream bgenListFile(f.c_str());
     if (bgenListFile.is_open()) {
         while (bgenListFile.good()) {
             getline (bgenListFile, l);
             if (!l.empty()) {
-                istringstream iss;
-                iss.str(l);
-                iss >> chr;
-                iss >> bgen;
-                b[chr] = bgen;
+                split(l, "\t", d);
+                b[d[0]] = d[1];
+                d.clear();
             }
         }
         bgenListFile.close();

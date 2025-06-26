@@ -15,6 +15,7 @@
 #include <map>
 #include "FileReader.h"
 #include <stdint.h>
+#include <algorithm>
 
 std::map<uint64_t, std::string>& GetListofVariantStartBytes(std::string&, std::map<std::string,VARIANT>&, std::string&);
 void MapToUserVarIDs(std::map<std::string, VARIANT>&, std::map<uint64_t, std::string>&);
