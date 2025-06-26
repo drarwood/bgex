@@ -32,6 +32,31 @@ make
 make install
 ```
 
+## Consider Using DXFUSE to avoid downloading the .bgen and .bgi files if using UKB data
+A major bottleneck in working with genetic data is downloading it to a cloud workstation first. 
+To avoid this, you should consider using streaming the data through `DXFUSE` instead of downloading prior to using `bgex` (although you do not have to do this to use `bgex`).
+It's relatively quick and straightforward to set this up - here are some commands to faciliate this.
+
+```
+# Initialise  workspace (if not done already:
+unset DX_WORKSPACE_ID
+dx cd $DX_PROJECT_CONTEXT_ID:
+
+# Get latest dxfuse binary and install
+wget https://github.com/dnanexus/dxfuse/releases/download/v1.5.0/dxfuse-linux
+sudo mv dxfuse-linux /usr/bin/dxfuse
+sudo chmod 777 /usr/bin/dxfuse
+
+# create directory to mount UKB project to (e.g. "project/")
+mkdir project/
+
+# mount project to directory
+dxfuse project "UKB_500k_WGS"
+
+```
+The example input files listing bgens within the `example_input/` directory reflect this mounting for the example UKB-RAP project called `UKB_500k_WGS`. 
+
+
 ## Input Files
 ### BGEN file list
 This should be a file containing chromosome and absolute file path to respective bgen: 
@@ -41,7 +66,8 @@ This should be a file containing chromosome and absolute file path to respective
 3	/full/path/to/ukb_imp_chr3_v3.bgen
 ...
 ```
-Note the respective `.bgi` is required and expected to be in the same directory as the `.bgen` file
+If the file path contains spaces, do not try to escape them or enclose the filename in quotes (see example files provided)
+Note the respective `.bgi` is required and expected to be in the same directory as the `.bgen` file.
 
 ### Variant file
 This file should contain at least the chromosome, bp-position, allele1, allele2. A 5th column may be provided that specifies the beta or log(OR) aligned to allele1. The 5th column will only be used if `--pscore` specified:
@@ -105,40 +131,8 @@ variant       info_score
 Note the variant ID is based on the original user chr, bp position, a1, and a2 in the variant file input by the user.
 
 
-### Consider Using DXFUSE to avoid downloading the .bgen and .bgi files
-
-A major bottleneck in working with genetic data is downloading it to a cloud workstation first. 
-To avoid this, you should consider using streaming the data through `DXFUSE` instead of downloading prior to using `bgex`. 
-It's relatively quick and straightforward to set this up - here are some commands to faciliate this.
-
-```
-### Standard initialisation of workspace here:
-unset DX_WORKSPACE_ID
-dx cd $DX_PROJECT_CONTEXT_ID:
-
-### Setup project mounting here to avoid downloading files
-# get dxfuse binary and install
-wget https://github.com/dnanexus/dxfuse/releases/download/v1.5.0/dxfuse-linux
-sudo mv dxfuse-linux /usr/bin/dxfuse
-sudo chmod 777 /usr/bin/dxfuse
-
-# create directory to mount project to (e.g. call it "project")
-mkdir project
-
-### At this point, you may want to consider creating a snapshot otherwise  you will have to do 
-### the the project mounting setup each time you start a new cloud workstation. 
-### You might want to do this before attempting to mount a project due potential issues with permissions later
-### dx-create-snapshot --name "dxfuse_snapshot"
-
-### Mount directory
-dxfuse project "UKB_500k_WGS"
-
-```
-The example input files listing bgens within the `example_input/` directory reflect this mounting for the example UKB-RAP project called `UKB_500k_WGS`.
-
-
 ## Example command:
-Run from within the `bgex/` directory, The following command will produce all output files for all individuals in BGEN. Info scores will be based on all individuals.
+Assuming the `DXFUSE` configuration above, the following command will produce all output files for all individuals in BGEN. Info scores will be based on all individuals.
 ```
 ./bgex \
   --bgens    example_input/hrc_uk10k_bgens.txt \
