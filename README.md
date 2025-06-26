@@ -107,7 +107,7 @@ Note the variant ID is based on the original user chr, bp position, a1, and a2 i
 ## Example command:
 The following command will produce all output files for all individuals in BGEN. Info scores will be based on all individuals.
 ```
-./bgen_extraction_tool \
+./bgex \
   --bgens    my_bgen_file_list.txt \
   --samples  /path/to/ukb9072_imp_autosomes.sample \
   --variants my_variant_list.txt \
@@ -120,7 +120,7 @@ The following command will produce all output files for all individuals in BGEN.
 
 The following command will produce all output files for all individuals in the optional subject list file. Info scores will be based on individuals in that file alone and only data derived from variants with an INFO score >=0.4 will be output or used for polygenic score deriviation.
 ```
-./bgen_extraction_tool \
+./bgex \
   --bgens    my_bgen_file_list.txt \
   --samples  /path/to/ukb9072_imp_autosomes.sample \
   --extract  my_subject_list.txt \
