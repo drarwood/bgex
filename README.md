@@ -132,3 +132,38 @@ The following command will produce all output files for all individuals in the o
   --min-info 0.4 \
   --out my_output_file_prefix
 ```
+
+## Using DXFUSE to avoid downloading the .bgen and .bgi files
+
+A major bottleneck in obtaining genetic data is downloading to a cloud workstation first. To avoid this, one may opt for data streaming through DXFUSE.  
+Here are some commands that enable this
+
+```
+### Standard initialisation of workspace here:
+unset DX_WORKSPACE_ID
+dx cd $DX_PROJECT_CONTEXT_ID:
+
+### Setup project mounting here to avoid downloading files
+# get dxfuse binary and install
+wget https://github.com/dnanexus/dxfuse/releases/download/v1.5.0/dxfuse-linux
+sudo mv dxfuse-linux /usr/bin/dxfuse
+sudo chmod 777 /usr/bin/dxfuse
+
+# create directory to mount project to (e.g. call it "project")
+mkdir project
+
+### At this point, you may want to consider snapshotting because you will have to do the the project mounting setup each time you start a new cloud workstation. You might want to do this before attempting to mount a project due potential issues with permissions later
+dx-create-snapshot --name "/Users/andy/dxfuse_cw_snapshot"
+
+### Mount directory
+dxfuse project "UKB_500k_WGS"
+
+### Input bgen and bgi files can now be read without downloading - just need to create the file containing the list of chromosomes and bgen files
+
+# HRC+UK10K data available here:
+"/home/dnanexus/project/UKB_500k_WGS/Bulk/Imputation/UKB imputation from genotype/"
+
+# TOPMed data availbale here:
+"/home/dnanexus/project/UKB_500k_WGS/Bulk/Imputation/Imputation from genotype (TOPmed)/"
+
+```
