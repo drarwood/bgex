@@ -32,7 +32,7 @@ make
 make install
 ```
 
-## Consider Using DXFUSE to avoid downloading the .bgen and .bgi files if using UKB data
+## Consider using DXFUSE to avoid downloading the .bgen and .bgi files if using UKB data
 A major bottleneck in working with genetic data is downloading it to a cloud workstation first. 
 To avoid this, you should consider using streaming the data through `DXFUSE` instead of downloading prior to using `bgex` (although you do not have to do this to use `bgex`).
 It's relatively quick and straightforward to set this up - here are some commands to faciliate this.
