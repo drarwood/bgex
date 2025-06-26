@@ -104,38 +104,12 @@ variant       info_score
 ```
 Note the variant ID is based on the original user chr, bp position, a1, and a2 in the variant file input by the user.
 
-## Example command:
-The following command will produce all output files for all individuals in BGEN. Info scores will be based on all individuals.
-```
-./bgex \
-  --bgens    my_bgen_file_list.txt \
-  --samples  /path/to/ukb9072_imp_autosomes.sample \
-  --variants my_variant_list.txt \
-  --probs \
-  --dosages \
-  --pscore \
-  --info \
-  --out my_output_file_prefix
-```
 
-The following command will produce all output files for all individuals in the optional subject list file. Info scores will be based on individuals in that file alone and only data derived from variants with an INFO score >=0.4 will be output or used for polygenic score deriviation.
-```
-./bgex \
-  --bgens    my_bgen_file_list.txt \
-  --samples  /path/to/ukb9072_imp_autosomes.sample \
-  --extract  my_subject_list.txt \
-  --variants my_variant_list.txt \
-  --probs \
-  --dosages \
-  --pscore \
-  --info \
-  --min-info 0.4 \
-  --out my_output_file_prefix
-```
+### Consider Using DXFUSE to avoid downloading the .bgen and .bgi files
 
-## Using DXFUSE to avoid downloading the .bgen and .bgi files
-
-A major bottleneck in obtaining genetic data is downloading to a cloud workstation first. To avoid this, one may opt for data streaming through DXFUSE. Here are some commands that enable this
+A major bottleneck in working with genetic data is downloading it to a cloud workstation first. 
+To avoid this, you should consider using streaming the data through `DXFUSE` instead of downloading prior to using `bgex`. 
+It's relatively quick and straightforward to set this up - here are some commands to faciliate this.
 
 ```
 ### Standard initialisation of workspace here:
@@ -154,18 +128,41 @@ mkdir project
 ### At this point, you may want to consider creating a snapshot otherwise  you will have to do 
 ### the the project mounting setup each time you start a new cloud workstation. 
 ### You might want to do this before attempting to mount a project due potential issues with permissions later
-dx-create-snapshot --name "dxfuse_snapshot"
+### dx-create-snapshot --name "dxfuse_snapshot"
 
 ### Mount directory
 dxfuse project "UKB_500k_WGS"
 
-### Input bgen and bgi files can now be read without downloading - just need to create the file containing the list of chromosomes and bgen files
-
-# HRC+UK10K data available here:
-"/home/dnanexus/project/UKB_500k_WGS/Bulk/Imputation/UKB imputation from genotype/"
-
-# TOPMed data availbale here:
-"/home/dnanexus/project/UKB_500k_WGS/Bulk/Imputation/Imputation from genotype (TOPmed)/"
-
 ```
 The example input files listing bgens within the `example_input/` directory reflect this mounting for the example UKB-RAP project called `UKB_500k_WGS`.
+
+
+## Example command:
+Run from within the `bgex/` directory, The following command will produce all output files for all individuals in BGEN. Info scores will be based on all individuals.
+```
+./bgex \
+  --bgens    example_input/hrc_uk10k_bgens.txt \
+  --samples  "/home/dnanexus/project/UKB_500k_WGS/Bulk/Imputation/UKB imputation from genotype/ukb22828_c1_b0_v3.sample"  \
+  --variants example_input/var_list_b37.txt \
+  --out      my_output_file_prefix
+  --probs \
+  --dosages \
+  --pscore \
+  --info
+```
+
+The following command will produce all output files for all individuals in the optional subject list file (this is not provided in the `example_input/` directory). 
+Info scores will be based on individuals extracted. Only variants with an INFO score >=0.4 will be output or used for polygenic score deriviation.
+```
+./bgex \
+  --bgens    example_input/hrc_uk10k_bgens.txt \
+  --samples  "/home/dnanexus/project/UKB_500k_WGS/Bulk/Imputation/UKB imputation from genotype/ukb22828_c1_b0_v3.sample"  \
+  --variants example_input/var_list_b37.txt \
+  --extract  my_subject_list.txt \
+  --probs \
+  --dosages \
+  --pscore \
+  --info \
+  --min-info 0.4 
+```
+
